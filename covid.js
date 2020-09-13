@@ -27,24 +27,9 @@ const getCovid = async () => {
   };
 
   const getTypeOfStats = (type) => {
-    switch (type) {
-      case "deaths":
-        return covidData.countries.map((country) => {
-          return country.latestData.deaths;
-        });
-      case "recovered":
-        return covidData.countries.map((country) => {
-          return country.latestData.recovered;
-        });
-      case "confirmed":
-        return covidData.countries.map((country) => {
-          return [country.latestData.confirmed];
-        });
-      case "critical":
-        return covidData.countries.map((country) => {
-          return country.latestData.critical;
-        });
-    }
+    return covidData.countries.map((country) => {
+      return country.latestData[type];
+    });
   };
 
   const displayCountries = () => {
@@ -68,7 +53,7 @@ const getCovid = async () => {
     const resData = await req.json();
     const data = resData.data;
     helpers.setAttribute(container, "none");
-
+    console.log(container);
     displayCountryDetails(data);
   };
 
@@ -125,7 +110,7 @@ const getCovid = async () => {
 
     covidData.targetedCountries.forEach((targetCountry) => {
       result.data.forEach((country) => {
-        if (!(country.name === targetCountry)) {
+        if (country.code !== targetedCountry.cca2) {
           return;
         } else {
           const countryData = {
@@ -146,12 +131,16 @@ const getCovid = async () => {
 
   continentChart = (type) => {
     const option = getTypeOfStats(type);
+    console.log(document.querySelector(".canvas-container"));
     if (document.querySelector("#myChart")) {
-      document.querySelector("#myChart").remove();
+      document.querySelector(".canvas-container").innerHTML = "";
       const canvas = document.createElement("canvas");
       canvas.id = "myChart";
+      console.log(canvas);
+      console.log(document.querySelector(".canvas-container"));
       document.querySelector(".canvas-container").appendChild(canvas);
     }
+    console.log(document.getElementById("myChart"));
     const ctx = document.getElementById("myChart").getContext("2d");
 
     const chart = new Chart(ctx, {
@@ -188,3 +177,6 @@ getCovid();
 
 //european countries https://github.com/hengkiardo/restcountries
 // api https://about-corona.net/documentation
+
+//problems with the remove canvas. not working properly
+//create function that toggles hides() the elements
