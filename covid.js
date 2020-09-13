@@ -61,6 +61,7 @@ const getCovid = async () => {
   };
 
   const fetchCountryDetails = async (code) => {
+    const container = document.querySelector(".canvas-container");
     const req = await fetch(
       `https://cors-anywhere.herokuapp.com/corona-api.com/countries/${code}`
     );
