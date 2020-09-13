@@ -143,8 +143,6 @@ const getCovid = async () => {
     continentChart("confirmed");
   };
 
- 
-
   continentChart = (type) => {
     const option = getTypeOfStats(type);
     if (document.querySelector("#myChart")) {
@@ -170,7 +168,7 @@ const getCovid = async () => {
         ],
       },
     });
-   
+  };
 
   const buttons = document.querySelectorAll("button");
   buttons.forEach((button) => {
